@@ -1,6 +1,6 @@
 import express from 'express';
-
 import {applyPatch, Operation} from 'json-joy/es6/json-patch';
+
 const patch: Operation[] = [
     {op: 'add', path: '/firstname', value: 'Tacuma'},
     {op: 'add', path: '/lastname', value: 'Bell'},
@@ -39,16 +39,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/user/:id', (req, res) => {
-    console.log(req)
     const user = data.filter((user) => user.id.toString() === req.params.id);
     res.json(user)
 })
 
 app.put('/user/:id', (req, res) => {
-    console.log(req.body);
     const result = applyPatch(req.body, patch, {mutate: false});
-    console.log({result});
-
     res.json(result.doc)
 })
 
@@ -58,9 +54,8 @@ app.patch('/user/:id', (req, res) => {
         {op: 'add', path: '/firstname', value: `${req.body.fname}`},
         {op: 'remove', path: '/fname'},
     ];
-    console.log(req.body);
+
     const result = applyPatch(req.body, patch, {mutate: false});
-    console.log({result});
 
     res.json(result.doc)
 })
@@ -73,6 +68,7 @@ app.put('/users/:id', (req, res) => {
         firstname: `${req.body.fname}`,
         lastname: `${req.body.lname}`
     }
+
     res.json(mapUser)
 })
 
